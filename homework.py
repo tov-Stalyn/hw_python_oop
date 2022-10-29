@@ -45,10 +45,11 @@ class Training:
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
         user_callories = (
-            (self.CALORIES_MEAN_SPEED_MULTIPLIER * self.get_mean_speed() +
-             self.CALORIES_MEAN_SPEED_SHIFT) * self.weight / self.M_IN_KM *
-             self.duration
-        )
+            (self.CALORIES_MEAN_SPEED_MULTIPLIER
+             * self.get_mean_speed()
+             + self.CALORIES_MEAN_SPEED_SHIFT)
+            * self.weight / self.M_IN_KM
+            * self.duration)
         return user_callories
 
     def show_training_info(self) -> InfoMessage:
@@ -75,9 +76,9 @@ class Running(Training):
 
     def get_spent_calories(self) -> float:
         run_callories = (
-            (self.CALORIES_MEAN_SPEED_MULTIPLIER * self.get_mean_speed() +
-            self.CALORIES_MEAN_SPEED_SHIFT) * self.weight / self.M_IN_KM *
-            self.duration
+            (self.CALORIES_MEAN_SPEED_MULTIPLIER * self.get_mean_speed()
+             + self.CALORIES_MEAN_SPEED_SHIFT) * self.weight / self.M_IN_KM
+            * self.duration
         )
         return run_callories
 
@@ -104,10 +105,10 @@ class SportsWalking(Training):
 
     def get_spent_calories(self) -> float:
         walk_callories = (
-            (self.FIRST_WALKING_CALORIES_COEFF * self.weight +
-            (self.get_mean_speed()**self.SECOND_WALKING_CALORIES_COEFF /
-            self.height) * self.THIRD_WALKING_CALORIES_COEFF *
-            self.weight) * self.duration
+            (self.FIRST_WALKING_CALORIES_COEFF * self.weight
+             + (self.get_mean_speed()**self.SECOND_WALKING_CALORIES_COEFF
+                 / self.height) * self.THIRD_WALKING_CALORIES_COEFF
+                * self.weight) * self.duration
         )
         return walk_callories
 
@@ -139,10 +140,10 @@ class Swimming(Training):
 
     def get_spent_calories(self) -> float:
         swim_callories = (
-            (self.FIRST_WALKING_CALORIES_COEFF * self.weight +
-            (self.get_mean_speed()**self.SECOND_WALKING_CALORIES_COEFF /
-            self.height) * self.THIRD_WALKING_CALORIES_COEFF *
-            self.weight) * self.duration
+            (self.FIRST_WALKING_CALORIES_COEFF * self.weight
+             + (self.get_mean_speed()**self.SECOND_WALKING_CALORIES_COEFF
+                / self.height) * self.THIRD_WALKING_CALORIES_COEFF
+                * self.weight) * self.duration
         )
         return swim_callories
 
@@ -152,8 +153,9 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    trainings = {'RUN': Running, 'SWM':
-                  Swimming, 'WLK': SportsWalking}
+    trainings = {'RUN': Running,
+                 'SWM': Swimming,
+                 'WLK': SportsWalking}
     class_type = trainings[workout_type](data)
     return class_type
 
