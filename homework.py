@@ -83,8 +83,8 @@ class Running(Training):
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
     CALORIES_WEIGHT_MULTIPLIER = 0.035
-    CALORIES_SPEED_HEIGHT_MULTIPLIER = 2
-    CALORIES_MEAN_SPEED_SHIFT = 0.029
+    CALORIES_SPEED_HEIGHT_MULTIPLIER = 0.029
+    CALORIES_MEAN_SPEED_SHIFT = 2
 
     def __init__(self, action: int, duration: float,
                  weight: float, height: float):
