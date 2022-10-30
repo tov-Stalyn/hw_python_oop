@@ -82,7 +82,7 @@ class Running(Training):
 
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
-    CALORIES_WEIGHT_MULTIPLIER:float = 0.035
+    CALORIES_WEIGHT_MULTIPLIER: float = 0.035
     CALORIES_SPEED_HEIGHT_MULTIPLIER = 0.029
     CALORIES_MEAN_SPEED_SHIFT = 2
     KMH_IN_MSEC: float = 0.278
