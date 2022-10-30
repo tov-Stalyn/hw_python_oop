@@ -23,7 +23,6 @@ class InfoMessage:
                 f' Потрачено ккал: {self.calories}.')
 
 
-
 class Training:
     """Базовый класс тренировки."""
     CALORIES_MEAN_SPEED_MULTIPLIER: float = 18
@@ -62,8 +61,10 @@ class Training:
 
     def get_message(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
-        return InfoMessage(self.__class__.__name__, self.duration, self.get_distance,
-                           self.get_mean_speed, self.get_spent_calories)
+        return InfoMessage(self.__class__.__name__,
+                           self.duration, self.get_distance,
+                           self.get_mean_speed,
+                           self.get_spent_calories)
 
 
 class Running(Training):
