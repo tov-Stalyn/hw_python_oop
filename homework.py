@@ -15,6 +15,14 @@ class InfoMessage:
                 f' Ср. скорость: {self.speed} км/ч;'
                 f' Потрачено ккал: {self.calories}.')
 
+    def get_message(self):
+        return (f'Тип тренировки: {self.training_type};'
+                f' Длительность: {self.duration} ч.;'
+                f' Дистанция: {self.distance} км;'
+                f' Ср. скорость: {self.speed} км/ч;'
+                f' Потрачено ккал: {self.calories}.')
+
+
 
 class Training:
     """Базовый класс тренировки."""
@@ -52,9 +60,9 @@ class Training:
             * self.duration)
         return user_callories
 
-    def show_training_info(self) -> InfoMessage:
+    def get_message(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
-        return InfoMessage(self.action, self.duration, self.get_distance,
+        return InfoMessage(self.__class__.__name__, self.duration, self.get_distance,
                            self.get_mean_speed, self.get_spent_calories)
 
 
@@ -156,13 +164,14 @@ def read_package(workout_type: str, data: list) -> Training:
     trainings = {'RUN': Running,
                  'SWM': Swimming,
                  'WLK': SportsWalking}
-    class_type = trainings[workout_type](*data)
+    if workout_type in trainings:
+        class_type = trainings[workout_type](*data)
     return class_type
 
 
 def main(training: Training) -> None:
     """Главная функция."""
-    info = training.show_training_info()
+    info = training.get_message()
     print(info)
 
 
