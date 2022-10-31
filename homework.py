@@ -92,7 +92,7 @@ class SportsWalking(Training):
         mean_speed_in_sec = self.get_mean_speed() * self.KMH_IN_MSEC
         calories_weight = self.CALORIES_WEIGHT_MULTIPLIER * self.weight
         calories_speed = self.CALORIES_SPEED_HEIGHT_MULTIPLIER * self.weight
-        electromagnetizm = mean_speed_in_sec ** 2 / self.height / self.CM_IN_M
+        electromagnetizm = mean_speed_in_sec ** 2 / (self.height / self.CM_IN_M)
 
         walk_spent_calories: float = (
             (calories_weight + electromagnetizm * calories_speed)
