@@ -1,9 +1,8 @@
 from dataclasses import dataclass, asdict
-from typing import ClassVar  # обработка замечания от ревью
+from typing import ClassVar
 
 
-@dataclass(init=True, repr=False, eq=False, order=False,
-           unsafe_hash=False, frozen=False)  # обработка замечания
+@dataclass(repr=False, eq=False)
 class InfoMessage:
     """Информационное сообщение о тренировке."""
     training_type: str
@@ -27,7 +26,7 @@ class Training:
     """Базовый класс тренировки."""
     M_IN_KM: int = 1000
     LEN_STEP: float = 0.65
-    MIN_IN_H = 60
+    MIN_IN_H: int = 60
 
     def __init__(self,
                  action: int,
@@ -41,9 +40,6 @@ class Training:
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
         return self.action * self.LEN_STEP / self.M_IN_KM
-        # скобки выше удалены по замечанию ревьюера, но алгебраически
-        # они там необходимы, ибо надо быть уверенным, что A*В/С будет
-        # понято как (А*В)/С, а не как А*(В/С), т.к. (А*В)/С != А*(В/С)
 
     def get_mean_speed(self) -> float:
         """Получить среднюю скорость движения."""
@@ -77,8 +73,8 @@ class Running(Training):
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
     CALORIES_WEIGHT_MULTIPLIER: float = 0.035
-    CALORIES_SPEED_HEIGHT_MULTIPLIER = 0.029
-    CALORIES_MEAN_SPEED_SHIFT = 2
+    CALORIES_SPEED_HEIGHT_MULTIPLIER: float = 0.029
+    CALORIES_MEAN_SPEED_SHIFT: int = 2
     KMH_IN_MSEC: float = 0.278
     CM_IN_M: int = 100
 
@@ -89,13 +85,12 @@ class SportsWalking(Training):
 
     def get_spent_calories(self) -> float:
         """Получить количество калорий по пешему туру."""
-        mean_speed_in_sec = self.get_mean_speed() * self.KMH_IN_MSEC
-        calories_weight = self.CALORIES_WEIGHT_MULTIPLIER * self.weight
-        calories_speed = self.CALORIES_SPEED_HEIGHT_MULTIPLIER * self.weight
-        magnetizm = mean_speed_in_sec ** 2 / (self.height / self.CM_IN_M)
 
         walk_spent_calories: float = (
-            (calories_weight + magnetizm * calories_speed)
+            ((self.CALORIES_WEIGHT_MULTIPLIER * self.weight)
+             + ((self.get_mean_speed()
+                * self.KMH_IN_MSEC) ** 2 / (self.height / self.CM_IN_M))
+                * (self.CALORIES_SPEED_HEIGHT_MULTIPLIER * self.weight))
             * self.duration * self.MIN_IN_H
         )
         return walk_spent_calories
@@ -129,7 +124,7 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    trainings = {
+    trainings: dict = {
         'RUN': Running,
         'WLK': SportsWalking,
         'SWM': Swimming
@@ -146,7 +141,7 @@ def main(training: Training) -> None:
 
 
 if __name__ == '__main__':
-    packages: list = [
+    packages: list[str, int] = [
         ('SWM', [720, 1, 80, 25, 40]),
         ('RUN', [15000, 1, 75]),
         ('WLK', [9000, 1, 75, 180]),
