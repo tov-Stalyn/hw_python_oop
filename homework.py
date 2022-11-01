@@ -124,7 +124,7 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    trainings: dict = {
+    trainings: dict[str, type[Training]] = {
         'RUN': Running,
         'WLK': SportsWalking,
         'SWM': Swimming
@@ -141,7 +141,7 @@ def main(training: Training) -> None:
 
 
 if __name__ == '__main__':
-    packages: list[str, int] = [
+    packages: tuple[str, list[int]] = [
         ('SWM', [720, 1, 80, 25, 40]),
         ('RUN', [15000, 1, 75]),
         ('WLK', [9000, 1, 75, 180]),
